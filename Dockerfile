@@ -14,7 +14,7 @@ RUN pnpm install
 # アプリケーションのコードをコピー
 COPY . .
 
-ENV PORT=4000
+ENV PORT=1000
 
 # ビルドを実行
 RUN pnpm run build
