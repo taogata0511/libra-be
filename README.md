@@ -36,3 +36,6 @@ pnpm docker:up
 ```bash
 pnpm docker:restart
 ```
+
+## API Docs
+http://localhost:1000/api/docs/

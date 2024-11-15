@@ -20,40 +20,37 @@ model User {
   isActive  Boolean   @default(false)
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
-  Book      Book[]
   Rental    Rental[]
   Donate    Donate[]
 }
 
 model Book {
-  id          Int       @id @default(autoincrement())
-  title       String
-  cover       String
-  code        String
-  donorUserId Int       @map("donor_user_id")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime? @updatedAt @map("updated_at")
-  User        User      @relation(fields: [donorUserId], references: [id])
-  Donate      Donate[]
+  id        Int       @id @default(autoincrement())
+  title     String
+  cover     String
+  code      String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  Donate    Donate[]
 }
 
 model Rental {
   id                 Int       @id @default(autoincrement())
-  borrowerId         Int       @map("borrower_id")
+  borrowUserId       Int       @map("borrow_user_id")
   checkoutDate       DateTime  @map("checkout_date")
   expectedReturnDate DateTime  @map("expected_return_date")
   returnDate         DateTime? @map("return_date")
   createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt          DateTime? @updatedAt @map("updated_at")
-  User               User      @relation(fields: [borrowerId], references: [id])
+  User               User      @relation(fields: [borrowUserId], references: [id])
 }
 
 model Donate {
-  id        Int       @id @default(autoincrement())
-  donorId   Int       @map("donor_id")
-  bookId    Int       @map("book_id")
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
-  User      User      @relation(fields: [donorId], references: [id])
-  Book      Book      @relation(fields: [bookId], references: [id])
+  id           Int       @id @default(autoincrement())
+  donateUserId Int       @map("donate_user_id")
+  bookId       Int       @map("book_id")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime? @updatedAt @map("updated_at")
+  User         User      @relation(fields: [donateUserId], references: [id])
+  Book         Book      @relation(fields: [bookId], references: [id])
 }

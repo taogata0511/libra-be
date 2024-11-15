@@ -3,7 +3,6 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  // ユーザーの作成
   const user1 = await prisma.user.create({
     data: {
       name: 'Alice',
@@ -18,14 +17,12 @@ async function main() {
     },
   });
 
-  // 本の作成
   const book1 = await prisma.book.create({
     data: {
       title: 'Figmaで作るUIデザインアイデア集 サンプルで学ぶ35のパターン',
       cover:
         'https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/9084/9784295019084_1_2.jpg?_ex=200x200',
       code: '9784295019084',
-      donorUserId: user1.id,
     },
   });
 
@@ -36,26 +33,30 @@ async function main() {
       cover:
         'https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/9085/9784815609085_1_3.jpg?_ex=200x200',
       code: '9784815609085',
-      donorUserId: user2.id,
     },
   });
 
-  // 寄付の記録
-  await prisma.donate.createMany({
-    data: [
-      { donorId: user1.id, bookId: book1.id },
-      { donorId: user2.id, bookId: book2.id },
-    ],
+  await prisma.donate.create({
+    data: {
+      donateUserId: user1.id,
+      bookId: book1.id,
+    },
   });
 
-  // レンタルの作成
+  await prisma.donate.create({
+    data: {
+      donateUserId: user2.id,
+      bookId: book2.id,
+    },
+  });
+
   await prisma.rental.create({
     data: {
-      borrowerId: user2.id,
+      borrowUserId: user2.id,
       checkoutDate: new Date(),
       expectedReturnDate: new Date(
         new Date().setDate(new Date().getDate() + 14),
-      ), // 2週間後
+      ),
     },
   });
 }

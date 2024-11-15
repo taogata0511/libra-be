@@ -8,4 +8,8 @@ export class BookService {
   getBooks() {
     return this.prismaService.book.findMany();
   }
+
+  getBookByCode(code: string) {
+    return this.prismaService.book.findFirst({ where: { code } });
+  }
 }
