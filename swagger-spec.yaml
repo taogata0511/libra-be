@@ -1,0 +1,31 @@
+openapi: 3.0.0
+paths:
+  /api/v1/book/list:
+    get:
+      operationId: BookController_findAll_v1
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                - id: '1'
+                  title: 呪術廻戦
+                  cover: >-
+                    https://m.media-amazon.com/images/I/71RJPPBHNGL._AC_UF1000,1000_QL80_.jpg
+                  code: '9784088826124'
+                  donorUserId: '1'
+                  createdAt: '2024-11-12T14:08:46.000Z'
+                  updatedAt: '2024-11-12T14:08:46.000Z'
+          description: ''
+      tags:
+        - Book
+info:
+  title: libra APIs
+  description: libra API document
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas: {}
