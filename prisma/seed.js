@@ -21,18 +21,21 @@ async function main() {
   // 本の作成
   const book1 = await prisma.book.create({
     data: {
-      title: 'Learn Prisma',
-      cover: 'https://example.com/cover1.jpg',
-      code: 'PRM123',
+      title: 'Figmaで作るUIデザインアイデア集 サンプルで学ぶ35のパターン',
+      cover:
+        'https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/9084/9784295019084_1_2.jpg?_ex=200x200',
+      code: '9784295019084',
       donorUserId: user1.id,
     },
   });
 
   const book2 = await prisma.book.create({
     data: {
-      title: 'Master TypeScript',
-      cover: 'https://example.com/cover2.jpg',
-      code: 'TS456',
+      title:
+        'AWS認定資格試験テキスト　AWS認定SysOpsアドミニストレーター - アソシエイト',
+      cover:
+        'https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/9085/9784815609085_1_3.jpg?_ex=200x200',
+      code: '9784815609085',
       donorUserId: user2.id,
     },
   });
