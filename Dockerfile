@@ -1,19 +1,22 @@
-FROM node:20-slim AS base
+FROM node:22
 
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+RUN apt-get update -y && apt-get install -y openssl
 
-WORKDIR /api
+# pnpm をインストール
+RUN npm install -g pnpm
 
-COPY package*.json /api/
+WORKDIR /app
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-
+# パッケージファイルをコピーして、依存関係をインストール
+COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
 
+# アプリケーションのコードをコピー
 COPY . .
 
-EXPOSE 3000
+ENV PORT=4000
 
-CMD ["pnpm", "start:dev"]
+# ビルドを実行
+RUN pnpm run build
+
+CMD [ "pnpm", "start:dev" ]

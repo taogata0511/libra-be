@@ -1,39 +1,32 @@
-version: '3.8'
 services:
-  app:
-    build: .
-    container_name: libra-be
-    command: pnpm start:dev
-    volumes:
-      - type: bind
-        source: .
-        target: /api
-    ports:
-      - '3000:3000'
-    environment:
-      DATABASE_URL: 'postgresql://user:password@app-postgres:5432/mydb?schema=public'
-    depends_on:
-      - db
-    networks:
-      nestjs:
-
   db:
     image: postgres:13
-    container_name: libra-db
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: libra
-    ports:
-      - '5432:5432'
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      nestjs:
+      - libra_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: "postgresql://user:password@db:5432/libra?schema=public"
+    depends_on:
+      - db
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/app
+    command: >
+      sh -c "
+      ./wait-for-it.sh db:5432 -- 
+      pnpm prisma migrate deploy &&
+      pnpm prisma:seed &&
+      pnpm start:dev
+      "
 
 volumes:
-  postgres_data:
-
-networks:
-  nestjs:
-    driver: bridge
+  libra_data: {}
