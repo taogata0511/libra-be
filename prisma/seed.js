@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
+  // ユーザーのダミーデータ
   const user1 = await prisma.user.create({
     data: {
       name: 'Alice',
@@ -17,6 +18,7 @@ async function main() {
     },
   });
 
+  // 本のダミーデータ
   const book1 = await prisma.book.create({
     data: {
       title: 'Figmaで作るUIデザインアイデア集 サンプルで学ぶ35のパターン',
@@ -36,33 +38,49 @@ async function main() {
     },
   });
 
-  await prisma.donate.create({
-    data: {
-      donateUserId: user1.id,
-      bookId: book1.id,
-    },
+  // 寄付のダミーデータ
+  await prisma.donate.createMany({
+    data: [
+      { donateUserId: user1.id, bookId: book1.id },
+      { donateUserId: user2.id, bookId: book2.id },
+    ],
   });
 
-  await prisma.donate.create({
+  // 借用のダミーデータ
+  await prisma.borrow.create({
     data: {
-      donateUserId: user2.id,
-      bookId: book2.id,
-    },
-  });
-
-  await prisma.rental.create({
-    data: {
-      borrowUserId: user2.id,
       checkoutDate: new Date(),
       expectedReturnDate: new Date(
         new Date().setDate(new Date().getDate() + 14),
       ),
+      User: {
+        connect: { id: user2.id },
+      },
+      Book: {
+        connect: { id: book1.id },
+      },
     },
   });
+
+  await prisma.borrow.create({
+    data: {
+      checkoutDate: new Date(),
+      expectedReturnDate: new Date(
+        new Date().setDate(new Date().getDate() + 7),
+      ),
+      User: {
+        connect: { id: user1.id },
+      },
+      Book: {
+        connect: { id: book2.id },
+      },
+    },
+  });
+
+  console.log('Seeding completed!');
 }
 
 main()
-  .then(() => console.log('Seeding completed!'))
   .catch((e) => {
     console.error(e);
     process.exit(1);

@@ -46,6 +46,34 @@ paths:
                 updatedAt: '2024-11-12T14:08:46.000Z'
           description: ''
       tags: *ref_0
+  /api/v1/borrow:
+    post:
+      operationId: BorrowController_borrow_v1
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                borrowUserId:
+                  type: number
+                  default: '1'
+                bookId:
+                  type: number
+                  default: '1'
+                checkoutDate:
+                  type: Date
+                  default: '2024-01-01'
+                expectedReturnDate:
+                  type: Date
+                  default: '2024-01-14'
+      responses:
+        '201':
+          description: ''
+      tags:
+        - Borrow
 info:
   title: libra APIs
   description: libra API document

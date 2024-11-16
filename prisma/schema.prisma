@@ -20,7 +20,7 @@ model User {
   isActive  Boolean   @default(false)
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
-  Rental    Rental[]
+  Borrow    Borrow[]
   Donate    Donate[]
 }
 
@@ -31,18 +31,21 @@ model Book {
   code      String
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
+  Borrow    Borrow[]
   Donate    Donate[]
 }
 
-model Rental {
+model Borrow {
   id                 Int       @id @default(autoincrement())
   borrowUserId       Int       @map("borrow_user_id")
+  bookId             Int       @map("book_id")
   checkoutDate       DateTime  @map("checkout_date")
   expectedReturnDate DateTime  @map("expected_return_date")
   returnDate         DateTime? @map("return_date")
   createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt          DateTime? @updatedAt @map("updated_at")
   User               User      @relation(fields: [borrowUserId], references: [id])
+  Book               Book      @relation(fields: [bookId], references: [id])
 }
 
 model Donate {

@@ -1,6 +1,7 @@
 import { Controller, Get, HttpStatus, Param } from '@nestjs/common';
+import { ApiParam, ApiResponse } from '@nestjs/swagger';
+
 import { BookService } from './book.service';
-import { ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 
 @Controller('book')
 export class BookController {

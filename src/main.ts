@@ -1,9 +1,10 @@
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as fs from 'fs';
 import { dump } from 'js-yaml';
+
+import { AppModule } from './app.module';
 
 declare const module: any;
 
@@ -27,6 +28,21 @@ async function bootstrap() {
     fs.writeFileSync('./swagger-spec.yaml', dump(document, {}));
     SwaggerModule.setup('api/docs/', app, document);
   }
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+      forbidUnknownValues: true,
+    }),
+  );
+
+  app.enableCors({
+    origin: '*',
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
+  });
 
   await app.listen(process.env.PORT ?? 3000);
 
