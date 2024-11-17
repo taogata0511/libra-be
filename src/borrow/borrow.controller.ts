@@ -32,7 +32,7 @@ export class BorrowController {
     },
   })
   @Post('')
-  borrow(@Body() request: BorrowRequestDto) {
-    return this.borrowService.updateBorrow(request);
+  async borrow(@Body() request: BorrowRequestDto) {
+    return await this.borrowService.createBorrow(request);
   }
 }

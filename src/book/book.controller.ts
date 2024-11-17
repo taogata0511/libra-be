@@ -27,8 +27,8 @@ export class BookController {
     },
   })
   @Get('/list')
-  findAll() {
-    return this.bookService.getBooks();
+  async findAll() {
+    return await this.bookService.getBooks();
   }
 
   @ApiParam({
@@ -54,7 +54,7 @@ export class BookController {
     },
   })
   @Get('/:code')
-  findByCode(@Param('code') code: string) {
-    return this.bookService.getBookByCode(code);
+  async findByCode(@Param('code') code: string) {
+    return await this.bookService.getBookByCode(code);
   }
 }

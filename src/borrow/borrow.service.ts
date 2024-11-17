@@ -7,7 +7,7 @@ import { BorrowRequest } from './borrow.interface';
 export class BorrowService {
   constructor(private prismaService: PrismaService) {}
 
-  updateBorrow(request: BorrowRequest) {
+  createBorrow(request: BorrowRequest) {
     return this.prismaService.borrow.create({
       data: { ...request },
     });
